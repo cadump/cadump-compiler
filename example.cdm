@@ -1,10 +1,10 @@
 std >
 
-std > kana
+std > kana                              //set kana to stdin
 
-coze < (
-  4, 4
-  5
+list < (
+  4, 4                                  //append 2 obejcts ( < 4) and ( < 4) to list
+  5                                     //append object ( < 5) to list
 )
 
 std < coze.2
@@ -12,21 +12,21 @@ std < coze.2
 kana > std
 
 foo < (
-  > i
+  > i                                   //take one variable as an argument and stdin it into i
 
-  < if < i = 3, i, ^ < "i is not valid" //return 3 if i equals to 3 else sets foo stderr to "i is not valid"
+  < if < i ?= 3, i, ^ < 1                //return 3 if i equals to 3 else sets foo stderr to error code 1 TODO: Use POSIX error codes
 )
 
-std > foo > std
-foo^ > std
+std > foo > std                         //set foo to stdin and then send foo to stdout
+foo^ > std                              //print stderr of object foo
 
-std, kana > foo > std
+std, kana > foo > std                   //set foo to (stdin, kana)
 
-eeee < ( kan < 5 )
+eeee < ( kan < 5 )                      //create eeee with child called kan with value 5
 
 eeee.kan > std
-eeee << kana
-eeee.x < kana
+eeee << kana                            //append kana to eeee
+eeee.x < kana                           //set eeee.x to kana
 
-eeee.x.stderr
-eeee.stderr
+std < eeee.x^
+std < eeee^
