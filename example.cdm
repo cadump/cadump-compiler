@@ -1,0 +1,32 @@
+std >
+
+std > kana
+
+coze < (
+  4, 4
+  5
+)
+
+std < coze.2
+
+kana > std
+
+foo < (
+  > i
+
+  < if < i = 3, i, ^ < "i is not valid" //return 3 if i equals to 3 else sets foo stderr to "i is not valid"
+)
+
+std > foo > std
+foo^ > std
+
+std, kana > foo > std
+
+eeee < ( kan < 5 )
+
+eeee.kan > std
+eeee << kana
+eeee.x < kana
+
+eeee.x.stderr
+eeee.stderr
