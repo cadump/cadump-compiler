@@ -1,13 +1,13 @@
 #!/usr/bin/env ruby
 
-require "optparse"
-require "preprocesor"
+require 'optparse'
+require 'preprocesor'
 
 optparse = OptionParser.new do |opts|
-  opts.on("-i", "--input FILE", "Input FILE") do |file|
+  opts.on('-i', '--input FILE', 'Input FILE') do |file|
     options[:inputfile] = file
   end
-  opts.on("-o", "--output FILE", "Output FILE") do |file|
+  opts.on('-o', '--output FILE', 'Output FILE') do |file|
     options[:outputfile] = file
   end
 
