@@ -10,7 +10,7 @@ settoargs < (                                     //create object settoargs
 //This evals immediately
 
 
-input < if < argc ?> 2, settoargs, '%s' > std     //set input to settoargs's stdout if argc's stdout is greater than 2 else set it to std's stdout formated as a text
+input < if < argc ?> 2, settoargs, std            //set input to settoargs's stdout if argc's stdout is greater than 2 else set it to std's stdout
 
 input, '' > split > first, sign, second, nil      //split input's stdout by empty -> by every element and set the array to first, sign, second and the rest throw away
 
