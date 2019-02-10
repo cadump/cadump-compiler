@@ -1,0 +1,65 @@
+> argc, argv                                      //read from args, first arg set to argc, the remaining args to argv
+
+'std', 'if', 'split', 'nil' > import              //set import stdin to std, if, split, nil
+import ?                                          //evaluate import -> import the objects
+
+settoargs < (                                     //create object settoargs
+  > argv                                          //set argv to settoargs stdin
+  < argv.0, argv.1, argv.2                        //set settoargs stdout to first, secong and third object in argv
+) < argv
+//This evals immediately
+
+
+input < if < argc ?> 2, settoargs, '%s' > std     //set input to settoargs's stdout if argc's stdout is greater than 2 else set it to std's stdout formated as a text
+
+input, '' > split > first, sign, second, nil      //split input's stdout by empty -> by every element and set the array to first, sign, second and the rest throw away
+
+result < if < sign ?= '*', first * second         //set the result's stdin to first multiplied by second if sign equals to '*'
+
+result < if < sign ?= '+', first + second
+
+result < if < sign ?= '/', first / second
+
+result < if < sign ?= '-', first - second
+
+'%d', result > std ?                              //set stdout's stdin to result formated as a number and eval stdout
+
+< 0
+
+
+
+
+
+
+std >
+
+std > kana                              //set kana to stdin
+
+list < (
+  4, 4                                  //append 2 obejcts ( < 4) and ( < 4) to list
+  5                                     //append object ( < 5) to list
+)
+
+std < coze.2
+
+kana > std
+
+foo < (
+  > i                                   //take one variable as an argument and stdin it into i
+
+  < if < i ?= 3, i, ^ < 1                //return 3 if i equals to 3 else sets foo stderr to error code 1 TODO: Use POSIX error codes
+)
+
+std > foo > std                         //set foo to stdin and then send foo to stdout
+foo^ > std                              //print stderr of object foo
+
+std, kana > foo > std                   //set foo to (stdin, kana)
+
+eeee < ( kan < 5 )                      //create eeee with child called kan with value 5
+
+eeee.kan > std
+eeee << kana                            //append kana to eeee
+eeee.x < kana                           //set eeee.x to kana
+
+std < eeee.x^
+std < eeee^
