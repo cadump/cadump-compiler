@@ -1,0 +1,29 @@
+> argc, argv
+
+import << 'std!', 'if!, 'map!'                //set std, if and map to be included globaly
+import ?                                      //eval import -> include them
+
+first:int!, sign:char!, second:int32!         //create global objects first type int, sign type char and second type int with size 32 bits
+//adding type isnt mandatory, but this creates primitive objects instead of generic ones, otherwise can be determined at compilation
+//in this example this would be automatically determined by the operations done, but you can specify it, if you need to
+//the ! means that its global
+
+settoargs < (
+  first < ..argv.0                            //.. means access the parent's, 'this' in other languages
+  sign < ..argv.1
+  second < ..argv.2
+)
+
+if < arc ?> 2, settoargs, ( map < std, (first, sign, second))
+
+result < if < sign ?= '*', first * second
+
+result < if < sign ?= '+', first + second
+
+result < if < sign ?= '/', first / second
+
+result < if < sign ?= '-', first - second
+
+std.number < result
+
+< 0
