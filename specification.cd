@@ -1,0 +1,50 @@
+// The file itself represents a cadump function.
+// The function here accepts one argument and it'll be called arguments here.
+> arguments
+
+// Assigning a property
+// In every function, you can create new variables in the current scope.
+// In this case we're assigning the number 42 to variable called example
+42 > example
+
+// this is an assignment
+10 + 10 > object_with_a_twenty.random_property
+24 > example.and_another_one // you cannot add children to primitive types
+
+// Defining functions
+(
+  > x, y
+  x * y > counter
+  // this is the default behavior - the current scope is returned
+  // if the function were to return something, then any of the declared variables wouldn't be accessible from the outside
+  . >
+) > example_function
+example_function > example_function_copy // this just copies the function into a different property
+10, 6 > example_function > example_object // this actually calls the function and saves its result into the example_object property
+
+example_object.counter > my_new_local_property
+20 > example_object.counter
+
+// defining addition function
+(
+  > x, y
+  x + y >
+) > addition
+
+50, 55 > addition > result_of_addition // this is a number, not a function
+
+// Every scope has just one function on default and that is the import function.
+// The import function can be given an array of string arguments determining which other cadump files to load.
+// Files in the current directory take priority over the system libraries.
+['if', 'nil'] > import >> .
+
+// Every cadump function can return one value - here just a 0
+0 >
+
+// Data types
+// primitive - number, array (and therefore string too), bool
+// object - can have primitives or objects as properties
+
+// Functions
+// can return an object or a primitive (returns its scope by default)
+// needs to have parameters (every function is pure (all variables used from the outside are copied during definition) and therefore the return value of a function can only be dependent on it's arguments and therefore a function without arguments is just a constant and is not allowed)
