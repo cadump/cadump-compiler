@@ -5,13 +5,17 @@
 
 'std' > import > libs                             //evaluate import -> import the objects as children of libs object
 
-'if', 'nil' > import >> .                         //import objects as children of current object
+['if', 'nil'] > import >> .                         //import objects as children of current object
 
 args > (
   > args
   < .args.0, .args.1, .args.2
 ) > params
 
+(
+  42 > kana
+) > x
+x.kana ?= 42, "I'm fucking dead" > if > std.out > nil
 
 args.count ?> 2, params, std.in > if > input
 
