@@ -16,7 +16,7 @@ settoargs < (
 
 if < arc ?> 2, settoargs, ( map < std, (first, sign, second))
 
-result < if < sign ?= '*', first * second
+result < if < sign ?= '*', first * second:
 
 result < if < sign ?= '+', first + second
 
@@ -27,3 +27,13 @@ result < if < sign ?= '-', first - second
 std.number < result
 
 < 0
+
+
+
+kana < (
+  a
+)
+
+/kana/a
+
+var { argc, argv} = input
