@@ -1,9 +1,13 @@
 5 > index
 
 //This creates array and one of the parameters (with index 5) has also a key identifier fifty
+<<<<<<< HEAD:docs/example_arrays.cd
 [ 5,5,5,5 ] > list
 
 56 > dictionary['fifty']
+=======
+[ 5,5,5,5,(56 > fifty >) ] > list
+>>>>>>> ae50deddd0182da374cd056ac33bd14a728d6111:example_arrays.cd
 
 //This assigns 4 to the 5th element of the array (index 4)
 4 > list[index]
