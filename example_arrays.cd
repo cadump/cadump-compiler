@@ -1,7 +1,7 @@
 5 > index
 
 //This creates array and one of the parameters (with index 5) has also a key identifier fifty
-[ 5,5,5,5,56 > fifty ] > list
+[ 5,5,5,5,(56 > fifty >) ] > list
 
 //This assigns 4 to the 5th element of the array (index 4)
 4 > list[index]
