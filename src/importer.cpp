@@ -1,33 +1,47 @@
 #include "importer.hpp"
 
-Importer::Importer(std::fstream* entry_file)
-{
-  master_file.path = "./temp/temp" + std::to_string(rand());
-  master_file.rw = new std::fstream(master_file.path, std::fstream::in | std::fstream::out);
+#include "../lib/namedfstream.hpp"
 
-  this->entry_file = entry_file;
+Importer::Importer(CadumpLibs::NamedFstream* entry_file)
+{
+  //generate truly unique file name based on hash of the current thread_id and pseudorandom number
+  master_file_.path = "./temp/temp" + std::to_string(std::hash<std::thread::id>{}(std::this_thread::get_id()) + rand());
+
+  master_file_.rw = new CadumpLibs::NamedFstream(master_file_.path.c_str(), std::fstream::in | std::fstream::out);
+
+  this->entry_file_ = entry_file;
 }
 
-std::fstream* Importer::import()
+CadumpLibs::NamedFstream* Importer::import()
 {
-
-  while(entry_file->eof())
+  while(!entry_file_->eof())
   {
-    std::vector<std::string>* this_import = parse_imports(find_next_import_command());
-    for(uint i = 0; i < this_import->size(); i++)
+    std::vector<ImportEntry>* imports = NULL;
+
+    std::string import_command = get_next_import_command();
+
+    if (!import_command.empty())
     {
-      this_import->at(i) = satisfy_import_scope(this_import->at(i),'l');
+      imports = parse_imports(import_command);
+
+      for(uint i = 0; i < imports->size(); i++)
+      {
+        imports->at(i).import_name = satisfy_import_scope(imports->at(i));
+
+        //TODO: acturally maybe call the function and parse the results
+        std::async(std::launch::async, spawn_if_doesnt_exist());
+      }
     }
   }
 
-  master_file.rw->close();
-  master_file.r  = new std::fstream(master_file.path, std::fstream::in);
-  return master_file.r;
+  master_file_.rw->close();
+  master_file_.r  = new CadumpLibs::NamedFstream(master_file_.path.c_str(), std::fstream::in);
+  return master_file_.r;
 }
 
 Importer::~Importer()
 {
-  master_file.rw->close();
-  master_file.r->close();
-  delete[] &master_file.path;
+  master_file_.rw->close();
+  master_file_.r->close();
+  delete[] &master_file_.path;
 }
