@@ -1,8 +1,12 @@
 #include <iostream>
 #include <fstream>
+#include <ctime>
 
 int main(int argc, char** argv)
 {
+  //Initialize seed for truly unique numbers for file names
+  srand(time(NULL));
+
   if (argc > 0)
   {
     //This expects that first argument is entry point file name
