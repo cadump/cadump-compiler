@@ -12,8 +12,7 @@ namespace CadumpLibs
    public:
      NamedFstream(const char* filename, ios_base::openmode mode = ios_base::in | ios_base::out) : std::fstream(filename, mode)
      {
-       std::string tmp(filename);
-       this->filename_ = tmp;
+       this->filename_ = std::string(filename);
      }
 
      std::string getFilename() {return this->filename_;}
