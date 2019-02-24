@@ -2,6 +2,8 @@
 #include <fstream>
 #include <ctime>
 
+#include "../lib/namedfstream.hpp"
+
 int main(int argc, char** argv)
 {
   //Initialize seed for truly unique numbers for file names
@@ -11,7 +13,7 @@ int main(int argc, char** argv)
   {
     //This expects that first argument is entry point file name
     //TODO change it for more robust checking
-    std::ifstream entry_file(argv[0]);
+    CadumpLibs::NamedFstream* entry_file(argv[0], std::ios_base::in);
 
     for( int param_index = 0; param_index < argc; param_index ++)
     {
