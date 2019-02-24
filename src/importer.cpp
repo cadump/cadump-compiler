@@ -4,8 +4,9 @@
 
 Importer::Importer(CadumpLibs::NamedFstream* entry_file)
 {
-  //generate truly unique file name based on hash of the current thread_id and pseudorandom number
-  master_file_.path = "./temp/temp" + std::to_string(std::hash<std::thread::id>{}(std::this_thread::get_id()) + rand());
+  //TODO: add this when async std::hash<std::thread::id>{}(std::this_thread::get_id())
+  //generate truly unique file name based on pseudorandom number
+  master_file_.path = "./temp/temp" + std::to_string(rand());
 
   master_file_.rw = new CadumpLibs::NamedFstream(master_file_.path.c_str(), std::fstream::in | std::fstream::out);
 
@@ -14,23 +15,27 @@ Importer::Importer(CadumpLibs::NamedFstream* entry_file)
 
 CadumpLibs::NamedFstream* Importer::import()
 {
+  //NOT WORKING TODO RETHINK HOW THIS SHOULD WORK
   while(!entry_file_->eof())
   {
-    std::vector<ImportEntry>* imports = NULL;
-
     std::string import_command = get_next_import_command();
+
+    ImportList import_list;
+
+    std::vector<CadumpLibs::NamedFstream*> child_import_list = {};
 
     if (!import_command.empty())
     {
-      imports = parse_imports(import_command);
+      import_list = parse_imports(import_command);
 
-      for(uint i = 0; i < imports->size(); i++)
+      for(uint i = 0; i < import_list.size(); i++)
       {
-        imports->at(i).import_name = satisfy_import_scope(imports->at(i));
+        import_list.at(i) = satisfy_import_scope(import_list.at(i));
 
-        //TODO: acturally maybe call the function and parse the results
-        std::async(std::launch::async, spawn_if_doesnt_exist());
+        child_import_list.push_back(spawn_if_doesnt_exist(import_list.at(i)));
       }
+
+      write_to_master_file(child_import_list);
     }
   }
 
