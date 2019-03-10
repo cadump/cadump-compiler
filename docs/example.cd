@@ -1,57 +1,67 @@
-//EVERYTHING IS A FUNCTION EVEN YOUR GRANDMA AND OBJECT ( IT RETURNS ITSELF )
+> args							// entry point, read args
 
+'std' > import > libs                           	// evaluate import -> import the objects as children of libs object
 
-> args
+['if', 'nil'] > import >> .                         	// import objects as children of current object
 
-'std' > import > libs                             //evaluate import -> import the objects as children of libs object
-
-['if', 'nil'] > import >> .                         //import objects as children of current object
-
-args > (
+args > (      	       	  				// parse first 3 objects in args array 
   > args
-  < .args.0, .args.1, .args.2
+  [ args.0, args.1, args.2 ] >
 ) > params
 
 (
-  42 > kana
-) > x
-x.kana ?= 42, "I'm fucking dead" > if > std.out > nil
+  std.in, '' > split >
+) > params_manual					// create function params_manual
 
-args.count ?> 2, params, std.in > if > input
+args.count ?> 2, params, params_manual > if > input	// if args count is more than 2 use params, else use params_manual (console input)
 
-input, '' > split > input_split      //split input's stdout by empty -> by every element and set the array to first, sign, second and the rest throw away
-input_split.0 > first
-input_split.1 > sign
-input_split.2 > second
 
-input, '' > split # first, sign, second >> .
+sign ?= '*', ( first * second > ) > if > result 	// set the result's stdin to first multiplied by second if sign equals to '*'
+sign ?= '/', ( first / second > ) > if > result 	// set the result's stdin to first divided by second if sign equals to '/'
+sign ?= '+', ( first + second > ) > if > result 	// set the result's stdin to first added to second if sign equals to '+'
+sign ?= '-', ( first - second > ) > if > result 	// set the result's stdin to first substracted by second if sign equals to '-'
 
-( 1, 3, 3 ), func_to_map > map > (3, 5, 6)
+'%d', result > std.out > nil                      	// set stdout's stdin to result formated as a number and eval stdout
 
-sign ?= '*', ( first * second > ) > if > result   //set the result's stdin to first multiplied by second if sign equals to '*'
 
-//result < if < sign ?= '+', first + second
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//						ANOTHER EXAMPLE??								       //
+//						YES!!										       //
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//result < if < sign ?= '/', first / second
+							
+(							// this function 'object_constructor' can construct objects with function 'f' inside
+  							// in cadump we don't make objects we construct objects using functions
 
-//result < if < sign ?= '-', first - second
 
-'%d', result > std.out > nil                      //set stdout's stdin to result formated as a number and eval stdout
+  2 > x							// this is primitive object and primitive objects can be just asigned a value
+  3 > y							
 
-1, 2, 3 > numbers
-numbers.1 > std.out > nil
-0, 0 > numbers.insert_at > nil
+  (							// this is a function, we can't create function inside object so we need to
+  							// construct the object with the function in it
+							
+    x * y >						// because function derives it's state from constructor
+      	  						// it uses the objects of it's parent
+							// NOTE: this is only possible in constructors, when we add other child objects to the created object
+							// 	 they will be inaccesible by the function
+							//	 the objects 'x' and 'y' can change value
+  ) > f
+) > object_constructor					// now we assign the anonymous function to a name 'object_constructor'
 
-< 0
+> object_constructor > objekt				// this calls this function and creates object 'objekt' with function 'f'
 
-> (
-  2 > x
+3 > objekt.x	       					// change value of 'x' to 3
+
+objekt.f > std.out > nil				// this will print 'x' * 'y', in this example '9' not '6'
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+> (							// this is anonymous constructor that construct the object 'objekt' immediately
+  2 > x							// use this if you want only one object constructed
   3 > y
 
   (
     x * y >
   ) > f
+  
 ) > objekt
-
-
-objekt.f > std.out > nil
