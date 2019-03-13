@@ -1,0 +1,9 @@
+[package]
+name = "cadump-compiler"
+version = "0.1.0"
+authors = ["Jáchym Tomášek <jachym.tomasek@outlook.com>"]
+edition = "2018"
+
+[dependencies]
+tempfile = "3"
+phf = { version = "0.7", features = ["macros"] }
