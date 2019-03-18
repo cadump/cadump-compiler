@@ -1,0 +1,75 @@
+* Cadump
+** Behavior
+*** Program flow
+Cadump code is executed left to right, top to bottom
+Just as normal english language
+*** Asign
+In cadump asignment is done by the `>` operator
+#+BEGIN_SRC cadump
+left > right
+#+END_SRC
+*** Apend
+Appending behaves similiarly but eith the `>>` operator
+#+BEGIN_SRC cadump
+left >> right
+#+END_SRC
+** Types
+Cadump is not typed language, all data types are determined at compilation automatically
+Other types are defined syntactically not by keywords
+*** Object
+Objects are the datatype of Cadump, they are used to store values (number, text etc. see [[notation]])
+They can also store other objects, [[function]]s, [[macro]]s, [[constant]]s
+**** Primitive
+These are the primitive objects, they store single value => number, float, string, boolean, character
+They dont require any specific treatment
+#+BEGIN_SRC cadump
+5 > number_five
+
+'Hello world' > message
+#+END_SRC 
+
+They can't have children, it will result in a compiler error
+**** Complex
+Objects can also store other objects or even [[function]]s or [[macro]]s or [[array]]s
+They you can access them by dot
+#+BEGIN_SRC cadump
+6 > parent.child
+#+END_SRC
+They don't have to exist, only their value will be [[nil]]
+You can add object or an [[array]] with this syntax
+
+In case of [[function]]s or [[macro]]s please see [[constructor]]
+**** Constant <<constant>>
+Constants are special type of objects. They cannot be changed. Anything that is assigned to them
+or added to them as a child is destroyed
+***** Nil <<nil>>
+Nil is a constant used as a universal destroyer
+Objects are destroyed once made nil (or by not being referenced anywhere)
+**** Notation <<notation>>
+***** Number
+Numbers are noted normally or by their hex or binary value
+#+BEGIN_SRC cadump
+12
+0xC
+0b1100
+#+END_SRC
+This is exactly the same number in decimal, hexadecimal and binary form
+***** Float
+Floats are speciall type of numbers in that, that they store decimal point
+#+BEGIN_SRC cadump
+12.45
+3.1415
+#+END_SRC
+Due to certain real word limitations there are some inconsintencies in the value
+and they should be avoided without rounding them in comparsions
+and also they are slower (a bit, not that much)
+*** Function <<function>>
+*** Macro <<macro>>
+*** Array <<array>>
+*** Math Expression <<math expression>>
+** Blocks
+*** Function blocks
+**** Construction blocks <<costructors>>
+*** Array blocks
+
+*** Math blocks

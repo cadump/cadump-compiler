@@ -1,9 +1,12 @@
 pub mod tokenizer {
+    #![feature(proc_macro_hygiene)]
     extern crate phf;
 
+    //use std::collections::HashMap;
     use phf::phf_map;
-    
-    enum Token {
+
+   #[derive(Clone)]
+    pub enum Token {
         INLINECOMMENT,
         MULTILINECOMMENT,
         STRING,
@@ -27,7 +30,8 @@ pub mod tokenizer {
         SMALLER
     }
 
-    static TOKENS : phf::Map<&'static str, Token> = phf_map! {
+    
+   static TOKENS : phf::Map<&'static str, Token> = phf_map! {
         r"/\/\/.*/g" => Token::INLINECOMMENT,
         "PLACEHOLDER" => Token::MULTILINECOMMENT,
         "PLACEHOLDER1" => Token::STRING,
@@ -58,7 +62,7 @@ pub mod tokenizer {
     struct Tokenizer {
     }
 
-    impl Tokenizer {
+    impl Tokenizer{
         fn tokenize(){}
     }
 }
