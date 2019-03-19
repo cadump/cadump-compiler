@@ -1,15 +1,15 @@
 pub mod tokenizer {
-    #![feature(proc_macro_hygiene)]
     extern crate phf;
 
     //use std::collections::HashMap;
     use phf::phf_map;
 
-   #[derive(Clone)]
+    #[derive(Clone)]
     pub enum Token {
         INLINECOMMENT,
         MULTILINECOMMENT,
-        STRING,
+        SQSTRING,
+        DQSTRING,
         NUMBER,
         FLOAT,
         WHOLEKEY,
@@ -17,52 +17,57 @@ pub mod tokenizer {
         SEPARATOR,
         APPEND,
         ASSIGNRIGHT,
-        FUNCTION,
+        FUNCTIONBLOCK,
         OPENBRACKET,
         CLOSEBRACKET,
-        ARRAY,
+        ARRAYBLOCK,
         OPENSQRBRACKET,
         CLOSESQRBRACKET,
         EQUALS,
         GREATEREQUALS,
         SMALLEREQUALS,
         GREATER,
-        SMALLER
+        SMALLER,
+        ADD,
+        SUBSTRACT,
+        DIVIDE,
+        MULTIPLY
     }
-
     
-   static TOKENS : phf::Map<&'static str, Token> = phf_map! {
-        r"/\/\/.*/g" => Token::INLINECOMMENT,
+    
+    static TOKENS : phf::Map<&'static str, Token> = phf_map! {
+        r"(\/\/).*" => Token::INLINECOMMENT,
         "PLACEHOLDER" => Token::MULTILINECOMMENT,
-        "PLACEHOLDER1" => Token::STRING,
-        "PLACEHOLDER2" => Token::NUMBER,
+        r"'(?:(?>[^'\\]+)|\\.)*'" => Token::SQSTRING,
+        r#"(?:(?>[^"\\]+)|\\.)*"# => Token::DQSTRING,
+        "[0-9]" => Token::NUMBER,
         "PLACEHOLDER3" => Token::FLOAT,
         "PLACEHOLDER4" => Token::WHOLEKEY,
-        "[a-z][A-Z]" => Token::KEY,
+        "[a-zA-Z]" => Token::KEY,
         "," => Token::SEPARATOR,
         ">>" => Token::APPEND,
         ">" => Token::ASSIGNRIGHT,
-        "PLACEHOLDER5" => Token::FUNCTION,
+        "PLACEHOLDER5" => Token::FUNCTIONBLOCK,
         "(" => Token::OPENBRACKET,
         ")" => Token::CLOSEBRACKET,
-        "PLACEHOLDER6" => Token::ARRAY,
-        "[" => Token::OPENSQRBRACKET,
+        "PLACEHOLDER6" => Token::ARRAYBLOCK,
+        "" => Token::OPENSQRBRACKET,
         "]" => Token::CLOSESQRBRACKET,
         "?=" => Token::EQUALS,
         "?>=" => Token::GREATEREQUALS,
-        "?<=" => Token:;SMALLEREQUALS,
+        "?<=" => Token::SMALLEREQUALS,
         "?>" => Token::GREATER,
-        "?<" => Token::SMALLER
+        "?<" => Token::SMALLER,
     };
 
-   /* const TOKENS : HashMap =  {
-        (KA, 's')
-    };*/
+    
     
     struct Tokenizer {
     }
 
     impl Tokenizer{
-        fn tokenize(){}
+        fn tokenize(){
+            let strisa = "\"";
+        }
     }
 }

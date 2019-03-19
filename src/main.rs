@@ -1,3 +1,4 @@
+#![feature(proc_macro_hygiene)]
 use std::env;
 
 extern crate tempfile;
