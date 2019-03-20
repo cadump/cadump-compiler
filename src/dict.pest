@@ -1,0 +1,58 @@
+FUNCTION_BLOCK = { OPEN ~ ( FUNCTION_BLOCK | ( !OPEN ~ !CLOSE ~ ANY ))* ~ CLOSE }
+
+OPEN = _{ "(" }
+CLOSE = _{ ")" }
+OPENSQ = _{ "[" }
+CLOSESQ = _{ "]" }
+ASIGN = { ">" }
+APPEND = { ">>" }
+DOT = { "." }
+
+single_quote_string = 
+text = { ASCII_ALPHA + }
+decimal = { ASCII_DIGIT + }
+hexadecimal = { "0x" ~ ( ASCII_HEX_DIGIT + ) }
+octadic = { "0o" ~ ( ASCII_OCT_DIGIT + ) }
+binary = { "0b" ~ ( ASCII_BIN_DIGIT + ) }
+
+spacing = { ( comment | space ) * }
+space = { " " | "\t" | NEWLINE }
+comment = { "//" ~ ANY * ~ NEWLINE }FUNCTION_BLOCK = { OPEN ~ ( FUNCTION_BLOCK | ( !OPEN ~ !CLOSE ~ ANY ))* ~ CLOSE }
+
+OPEN = _{ "(" }
+CLOSE = _{ ")" }
+OPENSQ = _{ "[" }
+CLOSESQ = _{ "]" }
+ASIGN = { ">" }
+APPEND = { ">>" }
+DOT = { "." }
+
+single_quote_string = 
+text = { ASCII_ALPHA + }
+decimal = { ASCII_DIGIT + }
+hexadecimal = { "0x" ~ ( ASCII_HEX_DIGIT + ) }
+octadic = { "0o" ~ ( ASCII_OCT_DIGIT + ) }
+binary = { "0b" ~ ( ASCII_BIN_DIGIT + ) }
+
+spacing = { ( comment | space ) * }
+space = { " " | "\t" | NEWLINE }
+comment = { "//" ~ ANY * ~ NEWLINE }FUNCTION_BLOCK = { OPEN ~ ( FUNCTION_BLOCK | ( !OPEN ~ !CLOSE ~ ANY ))* ~ CLOSE }
+
+OPEN = _{ "(" }
+CLOSE = _{ ")" }
+OPENSQ = _{ "[" }
+CLOSESQ = _{ "]" }
+ASIGN = { ">" }
+APPEND = { ">>" }
+DOT = { "." }
+
+single_quote_string = 
+text = { ASCII_ALPHA + }
+decimal = { ASCII_DIGIT + }
+hexadecimal = { "0x" ~ ( ASCII_HEX_DIGIT + ) }
+octadic = { "0o" ~ ( ASCII_OCT_DIGIT + ) }
+binary = { "0b" ~ ( ASCII_BIN_DIGIT + ) }
+
+spacing = { ( comment | space ) * }
+space = { " " | "\t" | NEWLINE }
+comment = { "//" ~ ANY * ~ NEWLINE }
