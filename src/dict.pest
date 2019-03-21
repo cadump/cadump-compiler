@@ -1,18 +1,18 @@
 ROOT = { ( EXPRESSION | comment | ANY)* }
 
-EXPRESSION = { EXPRESSION_SIDE ~ EMPTY* ~ OPERATOR ~ EMPTY* ~ ( EXPRESSION | EXPRESSION_SIDE ) ~ NEWLINE? }
-EXPRESSION_SIDE = { 
+EXPRESSION = { EMPTY* ~ EXPRESSION_SIDE ~ EMPTY* ~ OPERATOR ~ EMPTY* ~ ( EXPRESSION | EXPRESSION_SIDE ) ~ NEWLINE? }
+EXPRESSION_SIDE = _{ 
 	( FUNCTION_BLOCK | ARRAY_BLOCK | MATH_BLOCK | single_quote_string | double_quote_string
-    | number | COMPLEX_KEY | KEY | DOT | EMPTY | NEWLINE ) ~ ( COMMA ~ EXPRESSION_SIDE )? }
+    | number | COMPLEX_KEY | KEY | DOT | EMPTY | NEWLINE ) ~ ( EMPTY* ~ COMMA ~ EMPTY* ~ EXPRESSION_SIDE )? }
 
-FUNCTION_BLOCK = { OPEN ~ ( !OPEN ~ !CLOSE ~ ( EXPRESSION | NEWLINE | ANY ) )* ~ CLOSE }
-ARRAY_BLOCK = { OPENSQ ~ sequence? ~ CLOSESQ }
+FUNCTION_BLOCK = { OPEN ~ ( !OPEN ~ !CLOSE ~ ( ( EMPTY* ~ EXPRESSION ~ EMPTY* )| NEWLINE | ANY ) )* ~ CLOSE }
+ARRAY_BLOCK = { OPENSQ ~ sequence? ~ EMPTY* ~ CLOSESQ }
 MATH_BLOCK = { OPENCR ~ ( !OPENCR ~ !CLOSECR ~ ANY )* ~ CLOSECR }
 
-sequence = _{ ( FUNCTION_BLOCK | ARRAY_BLOCK | MATH_BLOCK | single_quote_string | double_quote_string
-    | whole_number | COMPLEX_KEY | KEY ) ~ ( ( COMMA | NEWLINE ) ~ EMPTY* ~ sequence)?} 
+sequence = _{ EMPTY* ~ ( FUNCTION_BLOCK | ARRAY_BLOCK | MATH_BLOCK | single_quote_string | double_quote_string
+    | whole_number | COMPLEX_KEY | KEY | ANY ) ~ ( EMPTY* ~ ( COMMA | NEWLINE ) ~ EMPTY* ~ sequence)?} 
 
-OPERATOR = _{ APPEND | GREATER_EQUAL | SMALLER_EQUAL | EQUAL | GREATER | SMALLER | ASSIGN }
+OPERATOR = _{ APPEND | GREATER_EQUAL | SMALLER_EQUAL | EQUAL | GREATER | SMALLER | ASSIGN | MULTIPLY | DIVIDE | ADD | SUBSTRACT }
 
 OPEN = _{ "(" }
 CLOSE = _{ ")" }
@@ -27,11 +27,15 @@ SMALLER = { "?<" }
 EQUAL = { "?=" }
 GREATER_EQUAL = { "?>=" }
 SMALLER_EQUAL = { "?<=" }
+MULTIPLY = { "*" }
+DIVIDE = { "/" }
+ADD = { "+" }
+SUBSTRACT = { "-" }
 DOT = { "." }
 COMMA = _{ "," }
 
 COMPLEX_KEY = { KEY ~ DOT ~ ( COMPLEX_KEY | KEY ) }
-KEY = { ( ASCII_ALPHA ) + }
+KEY = { ( ASCII_ALPHA ) + ~ ( "_" ~ ASCII_ALPHA )* }
 
 single_quote_string = { "\'" ~ ( !"\'" ~ ANY )* ~ "\'" }
 double_quote_string = { "\"" ~ ( !"\"" ~ ANY )* ~ "\"" }
