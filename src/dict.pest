@@ -1,6 +1,6 @@
 ROOT = { ( EXPRESSION | comment | ANY)* }
 
-EXPRESSION = { EMPTY* ~ EXPRESSION_SIDE ~ EMPTY* ~ OPERATOR ~ EMPTY* ~ ( EXPRESSION | EXPRESSION_SIDE ) ~ NEWLINE? }
+EXPRESSION = _{ EMPTY* ~ EXPRESSION_SIDE? ~ EMPTY* ~ OPERATOR ~ EMPTY* ~ ( EXPRESSION | EXPRESSION_SIDE ) ~ NEWLINE? }
 EXPRESSION_SIDE = _{ 
 	( FUNCTION_BLOCK | ARRAY_BLOCK | MATH_BLOCK | single_quote_string | double_quote_string
     | number | COMPLEX_KEY | KEY | DOT | EMPTY | NEWLINE ) ~ ( EMPTY* ~ COMMA ~ EMPTY* ~ EXPRESSION_SIDE )? }
@@ -10,7 +10,7 @@ ARRAY_BLOCK = { OPENSQ ~ sequence? ~ EMPTY* ~ CLOSESQ }
 MATH_BLOCK = { OPENCR ~ ( !OPENCR ~ !CLOSECR ~ ANY )* ~ CLOSECR }
 
 sequence = _{ EMPTY* ~ ( FUNCTION_BLOCK | ARRAY_BLOCK | MATH_BLOCK | single_quote_string | double_quote_string
-    | whole_number | COMPLEX_KEY | KEY | ANY ) ~ ( EMPTY* ~ ( COMMA | NEWLINE ) ~ EMPTY* ~ sequence)?} 
+    | whole_number | COMPLEX_KEY | KEY | ANY ) ~ ARRAY_BLOCK? ~ ( EMPTY* ~ ( COMMA | NEWLINE ) ~ EMPTY* ~ sequence)?} 
 
 OPERATOR = _{ APPEND | GREATER_EQUAL | SMALLER_EQUAL | EQUAL | GREATER | SMALLER | ASSIGN | MULTIPLY | DIVIDE | ADD | SUBSTRACT }
 
