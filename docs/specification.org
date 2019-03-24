@@ -73,3 +73,7 @@ and also they are slower (a bit, not that much)
 *** Array blocks
 
 *** Math blocks
+
+* If
+#+BEGIN_SRC cadump
+condition, if_true, else, arguments... > if > resuld
