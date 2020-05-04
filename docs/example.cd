@@ -1,8 +1,6 @@
-> args							// entry point, read args
-
-'std' > import > libs                           	// evaluate import -> import the objects as children of libs object
-
-['if', 'nil'] > import >> .                         	// import objects as children of current object
+#import ['if', 'nil'] > . // import objects as children of current object
+#import 'std' > libs      // import the objects as children of libs object
+> args							      // entry point, read args                	
 
 args > (      	       	  				// parse first 3 objects in args array 
   > args
@@ -10,18 +8,21 @@ args > (      	       	  				// parse first 3 objects in args array
 ) > params
 
 (
-  std.in, '' > split >
-) > params_manual					// create function params_manual
+  [ std.in, '' ] > split! >
+)? > params_manual?					// create macro params_manual
 
-args.count ?> 2, params, params_manual > if > input	// if args count is more than 2 use params, else use params_manual (console input)
+[ args.count ?> 2, params, params_manual? ] > if > input	// if args count is more than 2 use params, else expand params_manual and execute (console input)
 
+input[0] > first
+input[1] > sign
+input[2] > second
 
-sign ?= '*', ( first * second > ) > if > result 	// set the result's stdin to first multiplied by second if sign equals to '*'
-sign ?= '/', ( first / second > ) > if > result 	// set the result's stdin to first divided by second if sign equals to '/'
-sign ?= '+', ( first + second > ) > if > result 	// set the result's stdin to first added to second if sign equals to '+'
-sign ?= '-', ( first - second > ) > if > result 	// set the result's stdin to first substracted by second if sign equals to '-'
+[ sign ?= '*', first * second ] > if! > result    // set result to first multiplied by second, if the sign is '*'
+[ sign ?= '/', first / second ] > if! > result
+[ sign ?= '+', first + second ] > if! > result 
+[ sign ?= '-', first - second ] > if! > result
 
-'%d', result > std.out > nil                      	// set stdout's stdin to result formated as a number and eval stdout
+[ '%d', result ] > std.out!                     	// expand stdout macro with the parameter result formated as a number
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -29,39 +30,12 @@ sign ?= '-', ( first - second > ) > if > result 	// set the result's stdin to fi
 //						YES!!										       //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-							
-(							// this function 'object_constructor' can construct objects with function 'f' inside
-  							// in cadump we don't make objects we construct objects using functions
-
-
-  2 > x							// this is primitive object and primitive objects can be just asigned a value
-  3 > y							
-
-  (							// this is a function, we can't create function inside object so we need to
-  							// construct the object with the function in it
-							
-    x * y >						// because function derives it's state from constructor
-      	  						// it uses the objects of it's parent
-							// NOTE: this is only possible in constructors, when we add other child objects to the created object
-							// 	 they will be inaccesible by the function
-							//	 the objects 'x' and 'y' can change value
-  ) > f
-) > object_constructor					// now we assign the anonymous function to a name 'object_constructor'
-
-> object_constructor > objekt				// this calls this function and creates object 'objekt' with function 'f'
-
-3 > objekt.x	       					// change value of 'x' to 3
-
-objekt.f > std.out > nil				// this will print 'x' * 'y', in this example '9' not '6'
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-> (							// this is anonymous constructor that construct the object 'objekt' immediately
-  2 > x							// use this if you want only one object constructed
+(							// this is anonymous constructor that construct the object 'objekt' immediately
+  2 > x			  // use this if you want only one object constructed
   3 > y
 
   (
     x * y >
   ) > f
   
-) > objekt
+)! > objekt

@@ -20,7 +20,7 @@
   . >
 ) > example_function
 example_function > example_function_copy // this just copies the function into a different property
-10, 6 > example_function > example_object // this actually calls the function and saves its result into the example_object property
+[ 10, 6 ] > example_function > example_object // this actually calls the function and saves its result into the example_object property
 
 example_object.counter > my_new_local_property
 20 > example_object.counter
@@ -31,7 +31,7 @@ example_object.counter > my_new_local_property
   x + y >
 ) > addition
 
-50, 55 > addition > result_of_addition // this is a number, not a function
+[ 50, 55 ] > addition > result_of_addition // this is a number, not a function
 
 // Every scope has just one function on default and that is the import function.
 // The import function can be given an array of string arguments determining which other cadump files to load.

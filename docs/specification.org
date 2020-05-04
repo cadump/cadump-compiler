@@ -18,42 +18,40 @@ Cadump is not typed language, all data types are determined at compilation autom
 Other types are defined syntactically not by keywords
 *** Object
 Objects are the datatype of Cadump, they are used to store values (number, text etc. see [[notation]])
-They can also store other objects, [[function]]s, [[macro]]s, [[constant]]s
-**** Primitive
+
+*Objects are always immutable!* (their value cannot be changed)
+
+They can also store other objects, [[function]]s, [[macro]]s, [[primitive]]s
+**** Primitive<<primitive>>
 These are the primitive objects, they store single value => number, float, string, boolean, character
 They dont require any specific treatment
 #+BEGIN_SRC cadump
-5 > number_five
+5 > number
 
 'Hello world' > message
 #+END_SRC 
-
-They can't have children, it will result in a compiler error
 **** Complex
 Objects can also store other objects or even [[function]]s or [[macro]]s or [[array]]s
 They you can access them by dot
 #+BEGIN_SRC cadump
 6 > parent.child
 #+END_SRC
-They don't have to exist, only their value will be [[nil]]
-You can add object or an [[array]] with this syntax
+They don't have to exist, only their value will be [[nil]].
 
-In case of [[function]]s or [[macro]]s please see [[constructor]]
-**** Constant <<constant>>
-Constants are special type of objects. They cannot be changed. Anything that is assigned to them
-or added to them as a child is destroyed
-***** Nil <<nil>>
+Objects are constructed from [[constant]]s, [[macro]]s or [[function]]s.
+**** Nil <<nil>>
 Nil is a constant used as a universal destroyer
 Objects are destroyed once made nil (or by not being referenced anywhere)
 **** Notation <<notation>>
 ***** Number
-Numbers are noted normally or by their hex or binary value
+Numbers are noted normally or by their hex or binary or octal value
 #+BEGIN_SRC cadump
 12
 0xC
 0b1100
+0o14
 #+END_SRC
-This is exactly the same number in decimal, hexadecimal and binary form
+This is exactly the same number in decimal, hexadecimal, binary octal form
 ***** Float
 Floats are speciall type of numbers in that, that they store decimal point
 #+BEGIN_SRC cadump
@@ -64,16 +62,61 @@ Due to certain real word limitations there are some inconsintencies in the value
 and they should be avoided without rounding them in comparsions
 and also they are slower (a bit, not that much)
 *** Function <<function>>
+Functions are functionally pure. They cannot access anything outside of their scope. That means that they have to have input expression otherwise they are [[macro]]s.
+#+begin_src cadump
+(
+   > [arg1, arg2]
+   arg1 + arg2 >
+) > function
+#+end_src
+
+In order to execute functions, you have to evaluate them. Evaluation is done by assigning input into a function and assigning output into an object.
+#+begin_src cadump
+[4, 3] > function > result
+#+end_src
+In this scenario, result will have a value 5
+**** Input expressions
+Input expression is a special type of expression, they must be placed on top of a function. Otherwise function isn't formed.
+#+begin_src cadump
+> args
+> [ arg1, arg2 ]
+#+end_src cadump
+**** Returning value
+Functions can also return a value. It must be singular object or primitive or an array.unctions do not need to be assigned to a 
 *** Macro <<macro>>
+Macros are a way to write impure methods. They are expanded upon compilation into code of the calling body.
+
+Macros are defined with a question mark like this:
+#+begin_src cadump
+5 > a
+"m" > b
+(
+   a > b
+)? > macro?
+#+end_src
+
+And expanded with exclamation mark like this:
+#+begin_src cadump
+macro!
+#+end_src
+that will be expanded to this:
+#+begin_src cadump
+a > b
+#+end_src
+and b will be 5 as a result of this.
+
+Macros also can have and return value, they just are not required to do so.
 *** Array <<array>>
 *** Math Expression <<math expression>>
 ** Blocks
 *** Function blocks
 **** Construction blocks <<costructors>>
 *** Array blocks
-
 *** Math blocks
-
-* If
+* if, loop, foreach
+** if
+Ifs work the same way as in any other language. They evaluate/expand if_true if the condition is true, else they evaluate/expand else. The only major difference is, that if can also support arguments that it will pass to the if_true/else and also evaluates/expands them.
 #+BEGIN_SRC cadump
-condition, if_true, else, arguments... > if > resuld
+[condition, if_true, else, arguments...] > if > result
+#+end_src
+* std.in and std.out
